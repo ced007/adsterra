@@ -1,0 +1,79 @@
+<!DOCTYPE>
+<html lang="en">
+<meta charset="utf-8" />
+<head>
+  <meta name="viewport" content="device-width, initial-scale=1.0" />
+  
+  <style>
+    *{ box-sizing: border-box; margin:0; padding:0;}
+    .box{width:350px; height:400px; margin:0.5rem auto 1rem auto; background:#f7f7f710; box-shadow:0px 0px 10px #ddd; border-radius: 10px; display:flex; justify-content:center; align-items:center;}
+    .box p{ font-size:20px; color:#ddd; }
+    iframe{ width:100%; height:100%; border:none;}
+    button{width:95%; margin:0 2.5%; padding:0.8rem 0; border:none; border-radius:20px; color:white;}
+    .show{background: green;}
+    .hide{background: firebrick;}
+  </style>
+  
+  <script>
+    window.onload = () => app();
+    const _get = document.querySelector.bind(document);
+    
+    const state = {
+      isAdShowing : false,
+    }
+  
+    
+    const ad = () => {
+      const link = "https://gappoison.com/tviq8v8wyy?key=624698a444f88bee1e5ab0bb7b3a7c73";
+      
+      return (
+        `<iframe class="box" src="${link}"></iframe>`
+      )
+    };
+    
+    const layout = () => (
+      `<section>
+        ${!state.isAdShowing ? (
+          `<div class="box">
+             <p>Ad appear here</p>
+           </div>` 
+        ) : (
+          ad()
+        )}
+        <button class="${!state.isAdShowing?"show":"hide"}">
+          ${!state.isAdShowing ? "show ad" : "close ad"}
+        </button>
+      </section>`
+    );
+    
+    const app = () =>{
+      _get('#root').innerHTML = layout();
+      
+      _get('button').onclick = () => {
+        if(state.isAdShowing){
+           state.isAdShowing = false;
+           _get("iframe").remove();
+           app();
+        }else{
+           state.isAdShowing = true;
+           app();
+        }
+      }
+      
+      
+      if(state.isAdShowing){
+     // _get(".box").onclick = () => return;
+        setTimeout(()=>{
+          state.isAdShowing = false;
+          _get("iframe").remove();
+          app();
+        }, 15000)
+      }
+   }
+  </script>
+  <title>Adsterra | ads</title>
+</head>
+<body>
+  <div id="root"></div>
+</body>
+</html>
